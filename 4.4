@@ -1,0 +1,21 @@
+DFSInputStream:
+
+1.It is responsible for storing the data node addresses of the first few blocks of the file that is needed by the clients.
+2.When the end of the block is reached, DFSInputStream will close the connection to the datanode, then find the best datanode for the next block
+of files.This happens transparently to clients, which from its point of view is just reading a continuous stream.
+
+DFSOutputStream:
+
+1.DFSOutputStream splits the data which the client writes into packets, which it writes to an internal queue, called the data queue.
+2.The data queue is consumed by the DataStreamer, whose responsibility it is to ask the namenode to allocate new blocks by picking a list of
+suitable datanodes to store the replicas.
+
+FSDataInputStream:
+
+1.The open () method on FileSystem actually returns an FSDataInputStream rather than a standard java.io class.
+2.This class is a specialization of java.io.DataInputStream with support for random access, so you can read from any part of the stream.
+
+FSDataOutputStream:
+
+1.The client creates the file by calling create () method on DistributedFileSystem.
+2.DistributedFileSystem makes an RPC call to the namenode to create a new file in the filesystem’s namespace, with no blocks associated with it.
